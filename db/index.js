@@ -38,4 +38,20 @@ class DB {
       .promise()
       .query("DELETE FROM employee WHERE id = ?", employeeId);
   }
+
+  // Update thte given employee's role
+  updateEmployeeRole(employeeId, roleId) {
+    return this.connection.promise().query(
+        "UPDATE employee SET role_id = ? WHERE id = ?",
+        [roleId, employeeId]
+    );
+  }
+
+  // Update the given employee's manager
+  updateEmployeeManager(employeeId, managerId) {
+    return this.connection.promise().query(
+        "UPDATE employee SET manager_id = ? WHERE id = ?",
+        [managerId, employeeId]
+    );
+  }
 }
