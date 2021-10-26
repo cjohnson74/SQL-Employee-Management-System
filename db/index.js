@@ -71,4 +71,11 @@ class DB {
   removeRole(roleId) {
       return this.connection.promise().query("DELETE FROM role WHERE id = ?", roleId);
   }
+
+  // find all departments
+  findAllDepartments() {
+    return this.connection.promise().query(
+        "SELECT department.id, department.name FROM department;"
+    );
+  }
 }
