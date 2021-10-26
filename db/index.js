@@ -61,4 +61,14 @@ class DB {
         "SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;"
     );
   }
+
+  // create a new role
+  createRole(role) {
+    return this.connection.promise().query("INSERT INTO role SET ?", role);
+  }
+
+  // remove a role from the db
+  removeRole(roleId) {
+      return this.connection.promise().query("DELETE FROM role WHERE id = ?", roleId);
+  }
 }
