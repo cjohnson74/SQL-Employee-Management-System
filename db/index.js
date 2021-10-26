@@ -17,12 +17,25 @@ class DB {
   }
   // Find all employees except the given employee id
   findAllPossibleManagers(employeeId) {
-      return this.connection.promise().query(
-          "SELECT id, first_name, last_name FROM employee WHERE id != ?",
-          employeeId
+    return this.connection
+      .promise()
+      .query(
+        "SELECT id, first_name, last_name FROM employee WHERE id != ?",
+        employeeId
       );
   }
 
   // Create a new employee
-  
+  createEmployee(employee) {
+    return this.connection
+      .promise()
+      .query("INSERT INTO employee SET ?", employee);
+  }
+
+  // Remove an employee with the id from the user
+  removeEmployee(employeeId) {
+    return this.connection
+      .promise()
+      .query("DELETE FROM employee WHERE id = ?", employeeId);
+  }
 }
