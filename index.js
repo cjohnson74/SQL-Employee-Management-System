@@ -204,6 +204,31 @@ function loadMainPrompts() {
                         })
                         .then(() => loadMainPrompts());
                 });
+
+                function removeEmployee() {
+                    db.findAllEmployees()
+                    .then(([rows]) => {
+                        let employees = rows;
+                        const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+                            name: `${first_name} ${last_name}`,
+                            value: id
+                        }));
+
+                        prompt([
+                            {
+                                type: "list",
+                                name: "employeeId",
+                                message: "Which employee do you want to remove?",
+                                choices: employeeChoices
+                            }
+                        ])
+                        .then(res => db.removeEmployee(res.employeeId))
+                        .then(() => console.log("Removed employee from the database"))
+                        .then(() => loadMainPrompts())
+                    })
+                }
+
+                
         }
     )
 }
