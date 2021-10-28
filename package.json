@@ -1,20 +1,23 @@
 {
-  "name": "SQL-Employee-Managment-System",
+  "name": "sql-employee-managment-system",
   "version": "1.0.0",
-  "description": "Developers frequently have to create interfaces that allow non-developers to easily view and interact with information stored in databases. These interfaces are called content management systems (CMS). I built this command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cjohnson74/SQL-Employee-Tracker.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cjohnson74/SQL-Employee-Tracker/issues"
-  },
-  "homepage": "https://github.com/cjohnson74/SQL-Employee-Tracker#readme"
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jshint": "^2.12.0",
+    "mysql2": "^2.2.5",
+    "inquirer": "^8.2.0",
+    "asciiart-logo": "^0.2.6",
+    "console.table": "^0.10.0",
+    "sequelize": "^6.8.0",
+    "dotenv": "^10.0.0"
+  }
 }

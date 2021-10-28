@@ -1,15 +1,13 @@
 const { prompt } = require("inquirer");
 const logo = require("asciiart-logo");
 const db = require("./db");
-const { inherits } = require("util");
-const { allowedNodeEnvironmentFlags } = require("process");
-const { first } = require("rxjs");
+require("console.table");
 
 init();
 
 // Display logo text, load main prompts
 function init() {
-  const logoText = logo({ name: "SQL Employee Manager" }).render();
+  const logoText = logo({ name: "Employee Manager" }).render();
 
   console.log(logoText);
 
@@ -24,7 +22,7 @@ function loadMainPrompts() {
       message: "What would you like to do?",
       choices: [
         {
-          name: "View All Emplyees",
+          name: "View All Employees",
           value: "VIEW_EMPLOYEES",
         },
         {
@@ -432,28 +430,26 @@ function loadMainPrompts() {
 
     // removes a role from the db
     function removeRole() {
-        db.findAllRoles().then(([rows]) => {
-          let roles = rows;
-          const roleChoices = roles.map(
-            ({ id, title, salary }) => ({
-              name: `${title}`,
-              salary: `${salary}`,
-              value: id,
-            })
-          );
-          prompt([
-            {
-              type: "list",
-              name: "roleId",
-              message: "Which Role do you want to remove?",
-              choices: roleChoices,
-            },
-          ])
-            .then((res) => db.removeRole(res.roleId))
-            .then(() => console.log("Removed Role from the database"))
-            .then(() => loadMainPrompts());
-        });
-      }
+      db.findAllRoles().then(([rows]) => {
+        let roles = rows;
+        const roleChoices = roles.map(({ id, title, salary }) => ({
+          name: `${title}`,
+          salary: `${salary}`,
+          value: id,
+        }));
+        prompt([
+          {
+            type: "list",
+            name: "roleId",
+            message: "Which Role do you want to remove?",
+            choices: roleChoices,
+          },
+        ])
+          .then((res) => db.removeRole(res.roleId))
+          .then(() => console.log("Removed Role from the database"))
+          .then(() => loadMainPrompts());
+      });
+    }
 
     // shows all departments in table form in the console
     function viewDepartments() {
@@ -484,12 +480,10 @@ function loadMainPrompts() {
     function removeDepartment() {
       db.findAllDepartments().then(([rows]) => {
         let departments = rows;
-        const departmentChoices = departments.map(
-          ({ id, name }) => ({
-            name: `${name}`,
-            value: id,
-          })
-        );
+        const departmentChoices = departments.map(({ id, name }) => ({
+          name: `${name}`,
+          value: id,
+        }));
         prompt([
           {
             type: "list",
@@ -502,12 +496,11 @@ function loadMainPrompts() {
           .then(() => console.log("Removed department from the database"))
           .then(() => loadMainPrompts());
       });
-    } 
+    }
 
-    function quit(){
-        const logoText = logo({ name: "SQL Employee Manager GoodBye" }).render();
-
-  console.log(logoText);
+    function quit() {
+      const logoText = logo({ name: "SQL Employee Manager GoodBye" }).render();
+      console.log(logoText);
     }
   });
 }
