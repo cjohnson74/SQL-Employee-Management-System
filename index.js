@@ -47,24 +47,12 @@ function loadMainPrompts() {
           value: "ADD_ROLE",
         },
         {
-          name: "Remove Role",
-          value: "REMOVE_ROLE",
-        },
-        {
           name: "View All Departments",
           value: "VIEW_DEPARTMENTS",
         },
         {
           name: "Add Department",
           value: "ADD_DEPARTMENT",
-        },
-        {
-          name: "Remove Department",
-          value: "REMOVE_DEPARTMENT",
-        },
-        {
-          name: "View Total Utilized Budget By Department",
-          value: "VIEW_UTILIZED_BUDGET_BY_DEPARTMENT",
         },
         {
           name: "Quit",
@@ -94,21 +82,12 @@ function loadMainPrompts() {
       case "ADD_ROLE":
         addRole(); // Done
         break;
-      case "REMOVE_ROLE":
-        removeRole(); // Bonus
-        break;
       case "VIEW_DEPARTMENTS":
         viewDepartments(); // Done
         break;
       case "ADD_DEPARTMENT":
         addDepartment(); //Done
         break;
-      case "REMOVE_DEPARTMENT":
-        removeDepartment(); // Bonus
-        break;
-      case "VIEW_UTILIZED_BUDGET_BY_DEPARTMENT":
-        viewUtilizedBudgetByDepartment();
-        break; // Bonus
       case "QUIT":
         quit();
         break;
@@ -248,7 +227,7 @@ function loadMainPrompts() {
             type: "list",
             name: "employeeId",
             message: "Which employee's manager do you want to update?",
-            chocies: employeeChoices,
+            choices: employeeChoices,
           },
         ]).then((res) => {
           let employeeId = res.employeeId;
@@ -265,15 +244,14 @@ function loadMainPrompts() {
               {
                 type: "list",
                 name: "managerId",
-                message:
-                  "Which manager do you want to assign the selected employee?",
+                message: "Which manager do you want to assign the selected employee?",
                 choices: managerChoices,
               },
             ])
               .then((res) =>
                 db.updateEmployeeManager(employeeId, res.managerId)
               )
-              .then(() => console.log("updated employee's manager?"))
+              .then(() => console.log("updated employee's manager"))
               .then(() => loadMainPrompts());
           });
         });
@@ -326,29 +304,6 @@ function loadMainPrompts() {
       });
     }
 
-    // removes a role from the db
-    function removeRole() {
-      db.findAllRoles().then(([rows]) => {
-        let roles = rows;
-        const roleChoices = roles.map(({ id, title, salary }) => ({
-          name: `${title}`,
-          salary: `${salary}`,
-          value: id,
-        }));
-        prompt([
-          {
-            type: "list",
-            name: "roleId",
-            message: "Which Role do you want to remove?",
-            choices: roleChoices,
-          },
-        ])
-          .then((res) => db.removeRole(res.roleId))
-          .then(() => console.log("Removed Role from the database"))
-          .then(() => loadMainPrompts());
-      });
-    }
-
     // shows all departments in table form in the console
     function viewDepartments() {
       db.findAllDepartments()
@@ -374,31 +329,10 @@ function loadMainPrompts() {
         .then(() => loadMainPrompts());
     }
 
-    // romoves a department from the db
-    function removeDepartment() {
-      db.findAllDepartments().then(([rows]) => {
-        let departments = rows;
-        const departmentChoices = departments.map(({ id, name }) => ({
-          name: `${name}`,
-          value: id,
-        }));
-        prompt([
-          {
-            type: "list",
-            name: "departmentId",
-            message: "Which department do you want to remove?",
-            choices: departmentChoices,
-          },
-        ])
-          .then((res) => db.removeDepartment(res.departmentId))
-          .then(() => console.log("Removed department from the database"))
-          .then(() => loadMainPrompts());
-      });
-    }
-
     function quit() {
-      const logoText = logo({ name: "SQL Employee Manager GoodBye" }).render();
+      const logoText = logo({ name: "SQL Employee Manager, GoodBye!" }).render();
       console.log(logoText);
+      process.exit();
     }
   });
 }

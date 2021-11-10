@@ -21,7 +21,7 @@ class DB {
       .promise()
       .query(
         "SELECT id, first_name, last_name FROM employee WHERE id != ?",
-        employeeId
+        employeeId,
       );
   };
 
@@ -30,13 +30,6 @@ class DB {
     return this.connection
       .promise()
       .query("INSERT INTO employee SET ?", employee);
-  };
-
-  // Remove an employee with the id from the user
-  removeEmployee(employeeId) {
-    return this.connection
-      .promise()
-      .query("DELETE FROM employee WHERE id = ?", employeeId);
   };
 
   // Update thte given employee's role
@@ -50,12 +43,12 @@ class DB {
   };
 
   // Update the given employee's manager
-  updateEmployeeManager(employeeId, managerId) {
+  updateEmployeeManager(id, manager_id) {
     return this.connection
       .promise()
       .query("UPDATE employee SET manager_id = ? WHERE id = ?", [
-        managerId,
-        employeeId,
+        manager_id,
+        id,
       ]);
   };
 
