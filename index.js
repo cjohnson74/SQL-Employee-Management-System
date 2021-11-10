@@ -27,10 +27,6 @@ function loadMainPrompts() {
           value: "VIEW_EMPLOYEES",
         },
         {
-          name: "View All Employees By Department",
-          value: "VIEW_EMPLOYEES_BY_DEPARTMENT",
-        },
-        {
           name: "View All Employees By Manager",
           value: "VIEW_EMPLOYEES_BY_MANAGER",
         },
@@ -91,9 +87,6 @@ function loadMainPrompts() {
       case "VIEW_EMPLOYEES":
         viewEmployees(); //Done
         break;
-      case "VIEW_EMPLOYEES_BY_DEPARTMENT":
-        viewEmployeesByDepartment(); //Bonus
-        break;
       case "VIEW_EMPLOYEES_BY_MANAGER":
         viewEmployeesByManager(); // Bonus
         break;
@@ -144,34 +137,6 @@ function loadMainPrompts() {
           console.table(employees);
         })
         .then(() => loadMainPrompts());
-    }
-
-    // view all employees in a specific department
-    function viewEmployeesByDepartment() {
-      db.findAllDepartments()
-        .then(([rows]) => {
-        let departments = rows;
-        const departmentChoices = departments.map(({ id, name }) => ({
-          name: name,
-          value: id,
-        }));
-
-        prompt([
-          {
-            type: "list",
-            name: "departmentId",
-            message: "Which department would you like to see employees for?",
-            choices: departmentChoices,
-          },
-        ])
-          .then((res) => db.findAllEmployeesDepartment(res.departmentId))
-          .then(([rows]) => {
-            let employees = rows;
-            console.log("\n");
-            console.table(employees);
-          })
-          .then(() => loadMainPrompts());
-      });
     }
 
     // view all employees that report to a certain manager
