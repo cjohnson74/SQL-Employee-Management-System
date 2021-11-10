@@ -16,7 +16,7 @@ class DB {
   };
 
   // Find all employees except the given employee id
-  findAllPossibleManagers = (employeeId) => {
+  findAllPossibleManagers(employeeId) {
     return this.connection
       .promise()
       .query(
@@ -33,14 +33,14 @@ class DB {
   };
 
   // Remove an employee with the id from the user
-  removeEmployee = async (employeeId) => {
+  removeEmployee(employeeId) {
     return this.connection
       .promise()
       .query("DELETE FROM employee WHERE id = ?", employeeId);
   };
 
   // Update thte given employee's role
-  updateEmployeeRole = async (employeeId, roleId) => {
+  updateEmployeeRole(employeeId, roleId) {
     return this.connection
       .promise()
       .query("UPDATE employee SET role_id = ? WHERE id = ?", [
@@ -50,7 +50,7 @@ class DB {
   };
 
   // Update the given employee's manager
-  updateEmployeeManager = async (employeeId, managerId) => {
+  updateEmployeeManager(employeeId, managerId) {
     return this.connection
       .promise()
       .query("UPDATE employee SET manager_id = ? WHERE id = ?", [
@@ -60,7 +60,7 @@ class DB {
   };
 
   // Update the given employee's department
-  updateEmployeeDepartment = async (employeeId, departmentId) => {
+  updateEmployeeDepartment(employeeId, departmentId) {
     return this.connection
       .promise()
       .query("UPDATE employee SET department_id = ? WHERE id = ?", [
@@ -70,7 +70,7 @@ class DB {
   };
 
   // Find all roles, join with departments to display the department name
-  findAllRoles = async () => {
+  findAllRoles() {
     return this.connection
       .promise()
       .query(
@@ -86,14 +86,14 @@ class DB {
   };
 
   // remove a role from the db
-  removeRole = async (roleId) => {
+  removeRole(roleId) {
     return this.connection
       .promise()
       .query("DELETE FROM role WHERE id = ?", roleId);
   };
 
   // find all departments
-  findAllDepartments = async () => {
+  findAllDepartments() {
     return this.connection
       .promise()
       .query("SELECT department.id, department.name FROM department;");
@@ -108,7 +108,7 @@ class DB {
   };
 
   // remove a department from the db
-  removeDepartment = async (departmentId) => {
+  removeDepartment(departmentId) {
     return this.connection
       .promise()
       .query("DELETE FROM role WHERE id = ?", departmentId);
