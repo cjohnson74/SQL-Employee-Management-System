@@ -26,7 +26,7 @@ class DB {
   };
 
   // Create a new employee
-  createEmployee = async (employee) => {
+  createEmployee(employee) {
     return this.connection
       .promise()
       .query("INSERT INTO employee SET ?", employee);
@@ -79,8 +79,10 @@ class DB {
   };
 
   // create a new role
-  createRole = async (role) => {
-    return this.connection.promise().query("INSERT INTO role SET ?", role);
+  createRole(role) {
+    return this.connection
+    .promise()
+    .query("INSERT INTO role SET ?", role);
   };
 
   // remove a role from the db
@@ -98,7 +100,8 @@ class DB {
   };
 
   // create a new department
-  createDepartment = async (department) => {
+  createDepartment(department) {
+    console.log(department);
     return this.connection
       .promise()
       .query("INSERT INTO department SET ?", department);

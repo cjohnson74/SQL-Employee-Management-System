@@ -148,7 +148,8 @@ function loadMainPrompts() {
 
     // view all employees in a specific department
     function viewEmployeesByDepartment() {
-      db.findAllDepartments().then(([rows]) => {
+      db.findAllDepartments()
+        .then(([rows]) => {
         let departments = rows;
         const departmentChoices = departments.map(({ id, name }) => ({
           name: name,
@@ -216,24 +217,24 @@ function loadMainPrompts() {
         prompt([
           {
             type: "input",
-            name: "firstName",
+            name: "first_name",
             message: "What is the employee's first name?",
           },
           {
             type: "input",
-            name: "lastName",
+            name: "last_name",
             message: "What is the employee's last name?",
           },
           {
             type: "list",
-            name: "roleId",
+            name: "role_id",
             message: "What is the employee's role?",
             choices: roleChoices,
           },
         ]).then((res) => {
-          let employeeFirstName = res.firstName;
-          let employeeLastName = res.lastName;
-          let employeeRoleId = res.roleId;
+          let employeeFirstName = res.first_name;
+          let employeeLastName = res.last_name;
+          let employeeRoleId = res.role_id;
           db.findAllEmployees().then(([rows]) => {
             let employees = rows;
             const managerChoices = employees.map(
@@ -252,11 +253,13 @@ function loadMainPrompts() {
               },
             ])
               .then((res) =>
-                db.addEmployee(
-                  employeeFirstName,
-                  employeeLastName,
-                  employeeRoleId,
-                  res.managerId
+                db.createEmployee(
+                  {
+                    first_name: employeeFirstName,
+                    last_name: employeeLastName,
+                    role_id: employeeRoleId,
+                    manager_id: res.managerId,
+                  }
                 )
               )
               .then(() => console.log("Added employee to the database"))
@@ -406,7 +409,7 @@ function loadMainPrompts() {
         prompt([
           {
             type: "input",
-            name: "roleName",
+            name: "title",
             message: "What is the name of the role?",
           },
           {
@@ -416,13 +419,13 @@ function loadMainPrompts() {
           },
           {
             type: "list",
-            name: "departmentId",
+            name: "department_id",
             message: "Which department does the role belong to?",
             choices: departmentChoices,
           },
         ])
           .then((res) =>
-            db.createRole(res.roleName, res.salary, res.departmentId)
+            db.createRole(res)
           )
           .then(() => console.log("Added role to the database"))
           .then(() => loadMainPrompts());
@@ -468,11 +471,11 @@ function loadMainPrompts() {
       prompt([
         {
           type: "input",
-          name: "departmentName",
+          name: "name",
           message: "What is the name of the department?",
         },
       ])
-        .then((res) => db.createDepartment(res.departmentName))
+        .then((res) => db.createDepartment(res))
         .then(() => console.log("Added department to the database"))
         .then(() => loadMainPrompts());
     }
